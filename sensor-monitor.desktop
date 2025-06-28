@@ -1,0 +1,12 @@
+[Desktop Entry]
+Version=1.0
+Type=Application
+Name=System Sensor Monitor
+Comment=Monitor system temperatures, fan speeds, and hardware sensors
+Icon=temperature-symbolic
+Exec=python3 sensor_monitor.py
+Terminal=false
+Categories=System;Monitor;GTK;
+Keywords=sensors;temperature;monitoring;hardware;system;
+StartupNotify=true
+MimeType=

@@ -1,0 +1,21 @@
+# System Sensor Monitor GTK Requirements
+
+# Python GTK4 bindings
+PyGObject>=3.42.0
+
+# Note: The following system packages are also required:
+# - GTK4 (libgtk-4-dev or gtk4-devel)
+# - libadwaita (libadwaita-1-dev or libadwaita-devel) 
+# - lm-sensors (lm-sensors)
+# - GObject Introspection (gobject-introspection-devel)
+
+# These should be installed via your system's package manager:
+# 
+# Fedora/RHEL/CentOS:
+#   sudo dnf install python3-gobject gtk4 libadwaita lm-sensors
+#
+# Ubuntu/Debian:
+#   sudo apt install python3-gi gir1.2-gtk-4.0 gir1.2-adw-1 lm-sensors
+#
+# Arch Linux:
+#   sudo pacman -S python-gobject gtk4 libadwaita lm_sensors

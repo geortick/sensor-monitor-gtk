@@ -67,7 +67,6 @@ venv.bak/
 ehthumbs.db
 Thumbs.db
 
-# Screenshots (until we add real ones)
-screenshot*.png
+# OS screenshots (but allow project screenshots)
 *.jpg
 *.jpeg

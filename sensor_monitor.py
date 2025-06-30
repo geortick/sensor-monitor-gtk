@@ -156,18 +156,6 @@ class SensorMonitor(Gtk.ApplicationWindow):
         header.set_title_widget(Gtk.Label(label="Sensor Monitor"))
         self.set_titlebar(header)
         
-        # Refresh button
-        refresh_btn = Gtk.Button()
-        refresh_btn.set_icon_name("view-refresh-symbolic")
-        refresh_btn.connect("clicked", lambda x: self.update_sensors())
-        header.pack_end(refresh_btn)
-        
-        # Debug button to print sensor data
-        debug_btn = Gtk.Button()
-        debug_btn.set_icon_name("document-edit-symbolic")
-        debug_btn.connect("clicked", lambda x: self.debug_sensors())
-        header.pack_end(debug_btn)
-        
         # Main container
         self.setup_ui()
         self.setup_css()
@@ -232,9 +220,9 @@ class SensorMonitor(Gtk.ApplicationWindow):
         main_box.append(sensors_label)
         
         # Scrollable area for sensor cards
-        scrolled = Gtk.ScrolledWindow()
-        scrolled.set_policy(Gtk.PolicyType.NEVER, Gtk.PolicyType.AUTOMATIC)
-        scrolled.set_vexpand(True)
+        self.scrolled = Gtk.ScrolledWindow()
+        self.scrolled.set_policy(Gtk.PolicyType.NEVER, Gtk.PolicyType.AUTOMATIC)
+        self.scrolled.set_vexpand(True)
         
         # Flow box for sensor cards
         self.flowbox = Gtk.FlowBox()
@@ -245,8 +233,8 @@ class SensorMonitor(Gtk.ApplicationWindow):
         self.flowbox.set_column_spacing(16)
         self.flowbox.set_selection_mode(Gtk.SelectionMode.NONE)
         
-        scrolled.set_child(self.flowbox)
-        main_box.append(scrolled)
+        self.scrolled.set_child(self.flowbox)
+        main_box.append(self.scrolled)
         
         self.set_child(main_box)
     
@@ -384,6 +372,10 @@ class SensorMonitor(Gtk.ApplicationWindow):
     def update_sensors(self):
         sensors_data = self.parse_sensors_simple()
         
+        # Store current scroll position
+        vadj = self.scrolled.get_vadjustment()
+        scroll_position = vadj.get_value()
+        
         # Clear existing cards
         child = self.flowbox.get_first_child()
         while child:
@@ -474,6 +466,9 @@ class SensorMonitor(Gtk.ApplicationWindow):
             self.fan_circle.set_value(max_fan_speed, 3000, f"{int(max_fan_speed)}", (0.2, 0.7, 0.9))
         else:
             self.fan_circle.set_value(0, 3000, "N/A", (0.5, 0.5, 0.5))
+        
+        # Restore scroll position after a brief delay to allow layout
+        GLib.idle_add(lambda: vadj.set_value(scroll_position))
         
         return True  # Keep the timeout running
 

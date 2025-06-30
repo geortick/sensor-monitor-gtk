@@ -82,8 +82,10 @@ if [[ $REPLY =~ ^[Yy]$ ]]; then
     DESKTOP_DIR="$HOME/.local/share/applications"
     mkdir -p "$DESKTOP_DIR"
     
-    # Update desktop file with absolute path
-    sed "s|Exec=python3 sensor_monitor.py|Exec=python3 $(pwd)/sensor_monitor.py|" sensor-monitor.desktop > "$DESKTOP_DIR/sensor-monitor.desktop"
+    # Update desktop file with absolute paths
+    sed -e "s|Exec=python3 sensor_monitor.py|Exec=python3 $(pwd)/sensor_monitor.py|" \
+        -e "s|Icon=sensor-monitor-icon.svg|Icon=$(pwd)/sensor-monitor-icon.svg|" \
+        sensor-monitor.desktop > "$DESKTOP_DIR/sensor-monitor.desktop"
     
     # Update desktop database
     if command -v update-desktop-database >/dev/null 2>&1; then
